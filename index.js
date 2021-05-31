@@ -54,7 +54,7 @@ bot.on('spawn', async () => {
             counter = 0
         }
         const food = bot.food
-        if(food <= config.discord.food){
+        if(food <= config.minecraft.food){
             const ateChannel = await discordBot.channels.fetch(config.discord.eatChannel)
             ateChannel.send('ate')
             bot.equip(mcData.itemsByName.golden_carrot.id, 'hand')
