@@ -72,9 +72,10 @@ bot.on('spawn', async () => {
         
         const distance = calculateDistance(botPos, mobPos)
         
-        if(distance > config.discord.distance || mobPos.y >= config.discord.portalY) return
-
+        if(distance > config.minecraft.distance || mobPos.y >= config.minecraft.portalY) return
+        
         bot.lookAt(mobPos, true, () => {
+            console.log(mobPos)
             bot.attack(mob)
         })
     }, 625)
