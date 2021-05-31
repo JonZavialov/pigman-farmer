@@ -50,7 +50,8 @@ bot.on('spawn', async () => {
             const healthChannel = await discordBot.channels.fetch(config.discord.healthChannel)
             const hungerChannel = await discordBot.channels.fetch(config.discord.hungerChannel)
             const expChannel = await discordBot.channels.fetch(config.discord.expChannel)
-            expChannel.send(bot.experience.level, Math.round((Math.round(100*bot.experience.progress)/100)*100) + "%")
+            var expString = bot.experience.level + " " + Math.round((Math.round(100*bot.experience.progress)/100)*100) + "%"
+            expChannel.send(expString)
             hungerChannel.send(bot.food)
             healthChannel.send(bot.health)
             counter = 0
