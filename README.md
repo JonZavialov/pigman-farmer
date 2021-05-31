@@ -23,3 +23,4 @@ Open the config.json file, and edit the information to make your bot work in you
 4. healthChannel- this is the ID of the channel which your bot will send its health log to.
 5. eatChannel- this is the ID of the channel which your bot will send its eating log to.
 6. hungerChannel- this is the ID of the channel which your bot will send its hunger log to.
+7. expChannel- this is the ID of the channel which your bot will send its exp log to.
