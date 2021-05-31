@@ -1,0 +1,14 @@
+{
+  "name": "pigman-farmer",
+  "version": "1.0.0",
+  "description": "a bot that will afk farms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SonyTV-Bryson",
+  "license": "ISC",
+  "dependencies": {
+    "mineflayer": "^3.7.0"
+  }
+}
