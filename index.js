@@ -11,7 +11,8 @@ const options = {
     port: config.minecraft.serverPort,
     username: config.minecraft.user,
     password: config.minecraft.pass,
-    version: false
+    version: false,
+    physicsEnabled: false
 }
 
 
