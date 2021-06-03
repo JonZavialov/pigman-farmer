@@ -1,10 +1,15 @@
 const mineflayer = require('mineflayer')
-const calculateDistance = require('./utilities/calculateDistance')
 const sleep = require('./utilities/sleep')
+const autoEat = require('./actions/autoEat')
 const fs = require('fs')
+const discord = require('discord.js')
+const killAura = require('./actions/killAura')
 
 let rawdata = fs.readFileSync('./config.json');
 let config = JSON.parse(rawdata);
+
+const discordBot = new discord.Client()
+runDiscordBot(discordBot)
 
 const options = {
     host:config.minecraft.serverIP,
@@ -15,14 +20,8 @@ const options = {
     physicsEnabled: false
 }
 
-
 var bot = mineflayer.createBot(options)
 bindEvents(bot)
-
-const discord = require('discord.js')
-
-const discordBot = new discord.Client()
-runDiscordBot(discordBot)
 
 let mcData
 bot.on('inject_allowed', () => {
@@ -42,10 +41,10 @@ function relog() {
     bindEvents(bot)
 }
 
-let counter = 99
+let counter = 95
 
 bot.on('spawn', async () => {
-    setInterval(async () => {
+    while (true){
         counter+=1
         if(counter == 100){
             const healthChannel = await discordBot.channels.fetch(config.discord.healthChannel)
@@ -61,28 +60,13 @@ bot.on('spawn', async () => {
         if(food <= config.minecraft.food){
             const ateChannel = await discordBot.channels.fetch(config.discord.eatChannel)
             ateChannel.send('ate')
-            bot.equip(mcData.itemsByName.golden_carrot.id, 'hand')
-            bot.consume(function() {})
-            await sleep(1700)
-            bot.equip(mcData.itemsByName.netherite_sword.id, 'hand')
+            await autoEat(bot,mcData)
         }
-        
-        const mobFilter = e => e.type === 'mob'
-        const mob = bot.nearestEntity(mobFilter)
-        if (!mob) return
-        
-        const botPos = bot.player.entity['position']
-        const mobPos = mob.position
-        
-        const distance = calculateDistance(botPos, mobPos)
-        
-        if(distance > config.minecraft.distance || mobPos.y >= config.minecraft.portalY) return
-        
-        bot.lookAt(mobPos, true, () => {
-            console.log(mobPos)
-            bot.attack(mob)
-        })
-    }, 625)
+        else{
+            await killAura(bot,config)
+            await sleep(625)
+        }
+    }
 })
 
 async function runDiscordBot(discordBot) {
